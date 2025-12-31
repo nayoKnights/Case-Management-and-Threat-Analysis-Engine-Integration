@@ -11,7 +11,7 @@ To centralize incident management and automate security analysis and response, e
 - Ubuntu server instances on Digital Ocean (Get free compute resources from cloud providers like Digital Ocean when resources for lab setup is an issue)
 
 ## Architecture
-The SOC architecture consists of TheHive as the centralized incident management and orchestration platform, integrated with Cortex as the automated security analysis engine. 
+The architecture consists of TheHive as the centralized incident management and orchestration platform, integrated with Cortex as the automated security analysis engine. 
 Analysts interact with TheHive to manage cases and trigger Cortex analyzers, enabling automated enrichment of observables to support analyst investigations.
 
 ## Skills Learned
