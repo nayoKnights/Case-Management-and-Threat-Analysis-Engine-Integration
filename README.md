@@ -25,7 +25,7 @@ Analysts interact with TheHive to manage cases and trigger Cortex analyzers, ena
 
 ## Steps
 Documentation from StrangeBee, creators of TheHive and cortex was used <br> 
-Refer: <a href="https://docs.strangebee.com/thehive/installation/installation-guide-linux-standalone-server/"> Install on Linux </a>  or  <a href="https://docs.strangebee.com/thehive/installation/automated-installation-script-linux/"> Quick Install on Linux Systems: One-Command Setup </a> <br> <br>
+Refer: <a href="https://docs.strangebee.com/thehive/installation/installation-guide-linux-standalone-server/"> Install on Linux </a> &nbsp; or &nbsp; <a href="https://docs.strangebee.com/thehive/installation/automated-installation-script-linux/"> Quick Install on Linux Systems: One-Command Setup </a> <br> <br>
 - One-command install is preferred for a quick setup: *Download and run the Wazuh installation assistant.*
 - NB: When using server instances on Digital Ocean, here's what you can do to make the installation process seamless. Create a user and give it sudo permissions. Open the web console of the instance on Digital Ocean as the new user and run the single install command.
 <br>
@@ -74,7 +74,7 @@ sudo systemctl status thehive
 <img width="568" height="212" alt="{087F8642-8473-48D7-A9DA-5E375EE9A766}" src="https://github.com/user-attachments/assets/444c8ee1-590a-4939-9f81-841548b9a754" />
 <br> <br>
 
-Access thehive instance by typing http://<Your server's IP> in the browser <br> to see an the following interface. 
+Access thehive instance by typing http://<Your server's IP> in the browser <br> to see the interface below. 
 Default credentials:  Username: *admin*  Password: *secret* 
 
 <img width="960" height="448" alt="{803BEB1A-9A4B-4476-9809-FC470FD92108}" src="https://github.com/user-attachments/assets/9ef19ae5-5816-4b11-9360-eca6d76641cc" />
@@ -88,6 +88,89 @@ After first logon:
 - Create an organization. &nbsp; Refer: &nbsp; *<a href="https://docs.strangebee.com/thehive/administration/organizations/create-an-organization/"> Create Organization </a>* <br>
 - Add users. &nbsp; Refer: &nbsp; *<a href="https://docs.strangebee.com/thehive/user-guides/organization/configure-organization/manage-user-accounts/create-a-user-account/"> Create User Account </a>*
 <br>
+Organization and users created 
+<br> <br>
+<img width="1504" height="688" alt="image" src="https://github.com/user-attachments/assets/b6081c74-cd67-4299-ba7a-2039242b361b" /> <br>
+
+Request a community license here: &nbsp; *<a href="https://docs.strangebee.com/thehive/installation/licenses/request-a-community-license/"> Request a community license </a>*
+
+Sample case created in TheHive <br><br>
+<img width="956" height="443" alt="{06484EEB-0A1D-4095-B87C-8F550994282D}" src="https://github.com/user-attachments/assets/4f1ce33d-5252-4fbe-ab17-78796b4e5fca" />
+
+
+### Cortex Setup
+Prerequisites
+- Docker
+- Java 11
+  
+Refer to the docs here: *<a href= "https://docs.strangebee.com/cortex/installation-and-configuration/step-by-step-guide/"> Step by step guide </a>* &nbsp; or &nbsp; *<a href= "https://docs.strangebee.com/thehive/installation/automated-installation-script-linux/"> One Command Install</a>* 
+<br>
+
+What to do on first start: *<a href= "https://docs.strangebee.com/cortex/user-guides/first-start/"> First start<a/>*
+
+### Cortex Screenshot Demos
+<br>
+
+<img width="960" height="344" alt="{76B60F3A-B8A1-4149-A284-2C87C27E4F3D}" src="https://github.com/user-attachments/assets/7dd657fa-2587-456b-873d-016d7a5123eb" />
+
+<br>
+
+<img width="959" height="360" alt="{A7D3C9F0-A20F-427F-9824-62520010067B}" src="https://github.com/user-attachments/assets/09609bd5-1629-47ed-9ca6-f1f3a2911cc2" />
+<br>
+
+<img width="960" height="380" alt="{5C310FFA-0202-435A-A227-A094F2B1B009}" src="https://github.com/user-attachments/assets/62a9a4ec-6a13-4c9a-a8e4-8514cce86c96" />
+
+<br>
+Use this docs to configure analyzers and responders in Cortex: *<a href= "https://docs.strangebee.com/cortex/installation-and-configuration/analyzers-responders/"> Configure Analyzers and Responders<a/>*
+
+## Cortex Integration into TheHive
+
+- Create a user in Cortex and generate an API key for that user.
+
+- Open the file /etc/thehive/application.conf on the TheHive server.
+- Check whether the Cortex configuration block already exists in the file. Add the block only if it is not already present.
+  <br> Configuration block below
+```
+cortex {
+servers = [
+    *{*
+      \*name = "cortex"\*
+
+      \*url = "http://CORTEX\\\_IP:9001"\*
+
+      \*auth {\*
+
+        \*type = "bearer"\*
+
+        \*key  = "CORTEX\\\_API\\\_KEY"\*
+
+      \*}\*
+
+      \*refreshDelay = 1 minute\*
+
+    \*}\*
+
+]
+}
+```
+<br>
+
+- Insert the generated Cortex API key into the configuration block.
+- Set the Cortex server IP address in the block
+- Connect the Cortex server in TheHive. Refer to docs here: *<a href= "https://docs.strangebee.com/thehive/administration/cortex/add-a-cortex-server/"> Add a Cortex server<a/>*
+
+  <br>
+Cortex added to Thehive successfully
+<img width="960" height="442" alt="{77A85E47-9EA4-45CF-A8AA-6735B098E02C}" src="https://github.com/user-attachments/assets/73c1c5f6-d238-49c8-837a-c4b37f975ce1" />
+
+Running Cortex Analyzers in TheHive Demo
+<br>
+
+<img width="951" height="417" alt="{C4374E14-23CD-4311-A625-543E9723B783}" src="https://github.com/user-attachments/assets/2446c4ce-04d0-44f6-9fd8-4165e9f43e3a" /> <br>
+
+<img width="960" height="447" alt="{A3A16D58-177C-46A7-AAC5-1B9D4EB4FDF6}" src="https://github.com/user-attachments/assets/a1475c58-16a2-41ef-aa47-5d5240c34071" />
+
+  
 
 
 
